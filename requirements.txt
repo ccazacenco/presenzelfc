@@ -1,3 +1,4 @@
 python-telegram-bot==20.0
 requests
+python-dotenv
 # aggiungi qui altre librerie che usi (es. google-api-python-client, openpyxl, ecc.)
