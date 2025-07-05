@@ -21,18 +21,11 @@ def main():
     if not webhook_url:
         raise Exception("WEBHOOK_URL env var is required")
 
-    # RIMUOVI webhook_path!
+    # TIENI SOLO QUESTA!
     app.run_webhook(
         listen="0.0.0.0",
         port=port,
         webhook_url=f"{webhook_url}/webhook"
-    )
-
-    app.run_webhook(
-        listen="0.0.0.0",
-        port=port,
-        webhook_url=f"{webhook_url}/webhook",
-        webhook_path="/webhook",
     )
 
 # --- HEALTH CHECK SERVER ---
