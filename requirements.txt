@@ -1,4 +1,5 @@
 python-telegram-bot==20.0
 requests
 python-dotenv
+python-telegram-bot[webhooks]
 # aggiungi qui altre librerie che usi (es. google-api-python-client, openpyxl, ecc.)
