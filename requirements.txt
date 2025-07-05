@@ -2,4 +2,11 @@ python-telegram-bot==20.0
 requests
 python-dotenv
 python-telegram-bot[webhooks]
+gspread==5.11.4
+oauth2client==4.1.3
+pandas==2.1.4
+python-dotenv==1.0.0
+APScheduler==3.10.4
+cryptography==42.0.5
+pytz==2024.1
 # aggiungi qui altre librerie che usi (es. google-api-python-client, openpyxl, ecc.)
