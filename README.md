@@ -1,59 +1,26 @@
-# Presenze Operai Telegram Bot
+# presenzelfc
 
-Bot Telegram per la gestione delle presenze degli operai, integrato con Google Drive e notifiche.
+Bot Telegram per la gestione presenze operai, pronto per deploy su Render con webhook.
 
-## Struttura progetto
+## Setup
 
-```
-presenze_bot/
-├── core/         # Logica principale (menu, auth, presenze, report)
-├── utils/        # Utility (gdrive, logger, security)
-├── data/         # Dati, template, file temporanei
-├── config/       # Configurazione e settings
-├── main.py       # Entry point
-├── requirements.txt
-└── README.md
-```
-
-## Setup iniziale
-
-1. **Crea file `.env` nella root** con:
-   ```
-   TELEGRAM_TOKEN=...
-   GOOGLE_CREDENTIALS_JSON=...
-   ADMIN_CHAT_ID=...
-   ```
-2. **Copia il file di credenziali Google Drive** in `config/credentials.json`.
-
-3. **Installa i requirements**:
+1. Copia `.env.example` in `.env` e inserisci i tuoi valori.
+2. Installa i requirements:
    ```
    pip install -r requirements.txt
    ```
-
-4. **Avvia il bot**:
+3. Avvia in locale (solo per test):
    ```
    python main.py
    ```
+4. Deploy su Render come **Web Service**. Imposta le variabili ambiente, e carica (se serve) `config/credentials.json` come Secret File.
 
-## Google Drive
+## Note webhook
 
-- Il bot usa gspread e Google API per backup presenze/cantieri su Drive.
-- Ogni operaio ha una cartella personale su Drive (basata su CF).
-- I file Excel/PDF vengono salvati e scaricati automaticamente.
+- Il bot riceve messaggi solo tramite webhook (`/webhook`).  
+- Devi impostare la variabile ambiente `WEBHOOK_URL` con l’URL pubblico Render (es: `https://presenzelfc.onrender.com`).  
+- Non usare polling!
 
-## Deploy
+## Licenza
 
-- Puoi usare un server Linux con Python 3.10+.
-- Consigliato: systemd service o supervisord per l'esecuzione continua.
-- Per notifiche scheduler (APScheduler) il bot deve restare sempre attivo.
-
-## Sicurezza
-
-- Dati sensibili (PIN, CF, telefono) sono criptati con Fernet.
-- Logging dettagliato in `data/bot.log`.
-
-## TODO
-
-- Implementare tutti gli handler conversazionali
-- Gestione completa backup, report, notifiche
-- Test automatici (pytest)
+MIT
