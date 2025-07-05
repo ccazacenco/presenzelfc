@@ -1,4 +1,6 @@
 import os
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from telegram.ext import ApplicationBuilder, CommandHandler
 from core.menu import get_main_menu
 from core.auth import AuthDB
@@ -12,7 +14,7 @@ async def start(update, context):
 def main():
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
-    # aggiungi qui altri handler
+    # Qui puoi aggiungere altri handler
 
     # --- WEBHOOK PART (Render style) ---
     port = int(os.environ.get("PORT", 8443))
@@ -27,5 +29,21 @@ def main():
         webhook_path="/webhook",
     )
 
+# --- HEALTH CHECK SERVER ---
+def start_health_server():
+    class HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == "/healthz":
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(b"ok")
+            else:
+                self.send_response(404)
+                self.end_headers()
+    server = HTTPServer(('0.0.0.0', 8080), HealthHandler)
+    server.serve_forever()
+
 if __name__ == "__main__":
+    # Avvia il mini-server health check in background
+    threading.Thread(target=start_health_server, daemon=True).start()
     main()
