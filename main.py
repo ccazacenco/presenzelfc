@@ -14,13 +14,19 @@ async def start(update, context):
 def main():
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
-    # Qui puoi aggiungere altri handler
+    # ... altri handler
 
-    # --- WEBHOOK PART (Render style) ---
     port = int(os.environ.get("PORT", 8443))
     webhook_url = os.environ.get("WEBHOOK_URL")
     if not webhook_url:
         raise Exception("WEBHOOK_URL env var is required")
+
+    # RIMUOVI webhook_path!
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=port,
+        webhook_url=f"{webhook_url}/webhook"
+    )
 
     app.run_webhook(
         listen="0.0.0.0",
